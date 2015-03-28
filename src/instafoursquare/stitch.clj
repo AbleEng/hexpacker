@@ -73,7 +73,7 @@
                 y :y}]
        (let [roundx (read-string (format "%.5f" x))
              roundy (read-string (format "%.5f" y))]
-         {:x roundx :y roundy})) packed-circle-coords)))))
+         {:x roundx :y roundy})) packed-circle-coords))))
 
 ; Assuming area of Austin, TX is 704 km² @ lat 30.2500 long 97.7500
 ; Therefore, the radius of austin is ~ 14969.64127 m
