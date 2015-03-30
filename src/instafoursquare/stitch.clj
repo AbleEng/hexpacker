@@ -25,7 +25,7 @@
 (defn generate-next-layer
   "Given a vector of hashmaps containing x-y coordinates of a layer of circles forming 'Pascals Triangle', returns the next layer."
   [previous-layer]
-  (let [r2 5000]
+  (let [r2 500]
     (into [] 
           (set (flatten 
               (map (fn [elem]
@@ -71,8 +71,8 @@
   (let [packed-circle-coords (pack-circle r1 r2 center)]
     (set (map (fn [{x :x
                 y :y}]
-       (let [roundx (read-string (format "%.5f" x))
-             roundy (read-string (format "%.5f" y))]
+       (let [roundx (read-string (format "%.10f" x))
+             roundy (read-string (format "%.10f" y))]
          {:x roundx :y roundy})) packed-circle-coords))))
 
 ; Assuming area of Austin, TX is 704 km² @ lat 30.2500 long 97.7500
@@ -83,7 +83,7 @@
   `(fn [t#] [(+ ~h (* ~r (cos t#))) (+ ~k (* ~r (sin t#)))]))
 
 (def austin-circle
-  (let [rad 100000
+  (let [rad 14969
         lat 30.2500 
         lng 97.7500
         mapping (wgs84->mercator {:lat lat :lng lng})
@@ -100,8 +100,8 @@
         y (:y mapping)]
     (circle x y rad)))
 
-(def instagram-circle 
-  (let [rad 5000
+(def query-circle 
+  (let [rad 500
         lat 30.2500
         lng 97.7500
         mapping (wgs84->mercator {:lat lat :lng lng})
@@ -115,10 +115,7 @@
                            :y-label "Distance Y")]
             p))
 
-(def plot (let [p (parametric-plot big-circle (- Math/PI) Math/PI
-                           :title "(Big) Circle Packing"
-                           :x-label "Distance X"
-                           :y-label "Distance Y")]
-            p))
+; (def packed-circle-coords (round-pack-circle 14969 500 center-point))
+; (time (doall (pmap #(add-parametric plot query-circle Math/PI (- Math/PI)) packed-circle-coords)))
 
-(view plot)
+; (view plot)
