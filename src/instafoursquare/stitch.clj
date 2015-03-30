@@ -83,7 +83,7 @@
   `(fn [t#] [(+ ~h (* ~r (cos t#))) (+ ~k (* ~r (sin t#)))]))
 
 (def austin-circle
-  (let [rad 14969
+  (let [rad 3000
         lat 30.2500 
         lng 97.7500
         mapping (wgs84->mercator {:lat lat :lng lng})
@@ -118,4 +118,4 @@
 ; (def packed-circle-coords (round-pack-circle 14969 500 center-point))
 ; (time (doall (pmap #(add-parametric plot query-circle Math/PI (- Math/PI)) packed-circle-coords)))
 
-; (view plot)
+(view plot)
