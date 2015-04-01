@@ -17,14 +17,15 @@
 (def center-point-xy (wgs84->dmercator center-point))
 (def packed-circle-xy-coords (round-pack-circle 3000 50 center-point-xy))
 (def packed-circle-coords (map dmercator->wgs84 packed-circle-xy-coords))
-(def test-list (take 5 packed-circle-coords))
+(def test-list (take 25 packed-circle-coords))
+(def selected-coords (nth test-list 7))
 
 (defn get-google-places-data
   "Given a latitude and a longitude, get the google places data for that location"
   [coords]
   (let [query-params {:location (string/join "," [(:lat coords) (:lng coords)])
-                      :radius 500
-                      :types "airport|bakery|bar|beauty_salon|bicycle_store|book_store|bowling_alley|cafe|campground|car_dealer|car_rental|car_repair|car_wash|casino|clothing_store|convenience_store|dentist|department_store|doctor|electronics_store|establishment|florist|food|furniture_store|gas_station|grocery_or_supermarket|gym|hair_care|hardware_store|health|home_goods_store|insurance_agency|jewelry_store|laundry|library|liquor_store|locksmith|meal_delivery|meal_takeaway|movie_theater|movie_rental|moving_company|night_club|park|pharmacy|plumber|real_estate_agency|restaurant|shopping_mall|spa|store|travel_agency"
+                      :radius 50
+                      ; :types "airport|bakery|bar|beauty_salon|bicycle_store|book_store|bowling_alley|cafe|campground|car_dealer|car_rental|car_repair|car_wash|casino|clothing_store|convenience_store|dentist|department_store|doctor|electronics_store|establishment|florist|food|furniture_store|gas_station|grocery_or_supermarket|gym|hair_care|hardware_store|health|home_goods_store|insurance_agency|jewelry_store|laundry|library|liquor_store|locksmith|meal_delivery|meal_takeaway|movie_theater|movie_rental|moving_company|night_club|park|pharmacy|plumber|real_estate_agency|restaurant|shopping_mall|spa|store|travel_agency"
                       :key (:key google-api)}]
     (json/read-str (:body (client/get (:endpoint google-api) {:query-params query-params})) :key-fn keyword)))
 
@@ -69,21 +70,31 @@
 ;({mediacoord1}.......................................{mediacoordn})
 ;=>
 
-(def google-response (get-google-places-data (nth packed-circle-coords 3)))
+(def google-response (doall (pmap get-google-places-data test-list)))
 
-(def google-response-coords (map (fn [elem]
-                                   {:name (:name elem)
-                                    :location (:location (:geometry elem))}) (:results google-response)))
+(def google-response-coords (flatten (let [response-results (map :results google-response)]
+                              (for [result response-results]
+                                (for [sub-result result]
+                                  {:name (:name sub-result)
+                                   :location (:location (:geometry sub-result))})))))
+
+(doall (pmap get-instagram-data test-list))
 
 (def combined-data (for [biz google-response-coords]
-  (let [results (for [media media-list]
+  (let [results (sort-by :distance (for [media media-list]
                     (let [lat (:latitude (:location media))
                           lng (:longitude (:location media))
                           ll {:lat lat :lng lng}]
                       {:distance (haversine (:location biz) ll)
-                       :link (:link media)}))]
-    (conj biz {:results (sort-by :distance results)}))))
+                       :link (:link media)})))]
+    (conj biz {:results results}))))
 
+(def pruned-combined-data
+  (map (fn [elem]
+       (let [pruned-results (take 3 (:results elem))]
+         {:name (:name elem)
+          :location (:location elem)
+          :top-results pruned-results})) combined-data))
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
