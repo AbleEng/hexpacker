@@ -3,7 +3,8 @@
   (:require [instafoursquare.web :refer [start-server]]
             [instafoursquare.mercator :refer [wgs84->dmercator dmercator->wgs84]]
             [instafoursquare.stitch :refer [min-circles round-pack-circle]]
-            [instafoursquare.config :refer [foursquare-api instagram-api]]
+            [instafoursquare.haversine :refer [haversine]]
+            [instafoursquare.config :refer [foursquare-api instagram-api google-api]]
             [clj-http.client :as client]
             [clojure.data.json :as json]
             [clojure.string :as string]))
@@ -16,6 +17,16 @@
 (def center-point-xy (wgs84->dmercator center-point))
 (def packed-circle-xy-coords (round-pack-circle 3000 50 center-point-xy))
 (def packed-circle-coords (map dmercator->wgs84 packed-circle-xy-coords))
+(def test-list (take 5 packed-circle-coords))
+
+(defn get-google-places-data
+  "Given a latitude and a longitude, get the google places data for that location"
+  [coords]
+  (let [query-params {:location (string/join "," [(:lat coords) (:lng coords)])
+                      :radius 500
+                      :types "airport|bakery|bar|beauty_salon|bicycle_store|book_store|bowling_alley|cafe|campground|car_dealer|car_rental|car_repair|car_wash|casino|clothing_store|convenience_store|dentist|department_store|doctor|electronics_store|establishment|florist|food|furniture_store|gas_station|grocery_or_supermarket|gym|hair_care|hardware_store|health|home_goods_store|insurance_agency|jewelry_store|laundry|library|liquor_store|locksmith|meal_delivery|meal_takeaway|movie_theater|movie_rental|moving_company|night_club|park|pharmacy|plumber|real_estate_agency|restaurant|shopping_mall|spa|store|travel_agency"
+                      :key (:key google-api)}]
+    (json/read-str (:body (client/get (:endpoint google-api) {:query-params query-params})) :key-fn keyword)))
 
 (defn get-foursquare-data 
   "Given a latitude and a longitude, get the foursquare data for that location and store it in foursquare-response"
@@ -53,6 +64,25 @@
          (let [media {:link (:link elem) 
                       :location (:location elem)}]
            media)) (flatten (map :data @instagram-responses))))
+
+;({bizcoord1} {bizcoord2} {bizcoord3} {bizcoord4} {bizcoord5})
+;({mediacoord1}.......................................{mediacoordn})
+;=>
+
+(def google-response (get-google-places-data (nth packed-circle-coords 3)))
+
+(def google-response-coords (map (fn [elem]
+                                   {:name (:name elem)
+                                    :location (:location (:geometry elem))}) (:results google-response)))
+
+(def combined-data (for [biz google-response-coords]
+  (let [results (for [media media-list]
+                    (let [lat (:latitude (:location media))
+                          lng (:longitude (:location media))
+                          ll {:lat lat :lng lng}]
+                      {:distance (haversine (:location biz) ll)
+                       :link (:link media)}))]
+    (conj biz {:results (sort-by :distance results)}))))
 
 (defn -main
   "I don't do a whole lot ... yet."
