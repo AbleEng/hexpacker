@@ -73,6 +73,7 @@
                        (conj biz {:results total-results}))))
 
 (def ordered-results (reverse (sort-by #(count (:results %1)) combined-data)))
+(pprint ordered-results)
 
 ; (:name (nth ordered-results 0))
 
