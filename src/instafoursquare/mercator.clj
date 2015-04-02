@@ -15,11 +15,11 @@
 
 (defn lng->x
   [lng]
-  (Math/toDegrees (* r-major (Math/toRadians lng))))
+  (* 2 lng))
 
 (defn x->lng
   [x]
-  (Math/toDegrees (/ (Math/toRadians x) r-major)))
+  (/ x 2))
 
 (defn y->lat
   [y]

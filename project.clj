@@ -6,6 +6,7 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [compojure "1.1.8"]
                  [clj-http "1.0.1"]
+                 [twitter-api "0.7.8"]
                  [ring "1.3.0"]
                  [org.clojure/data.json "0.2.5"]
                  [incanter "1.9.0"]]
