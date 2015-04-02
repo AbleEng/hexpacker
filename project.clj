@@ -19,5 +19,6 @@
          :auto-reload? true
          :auto-refresh? true
          :nrepl {:start? true
-                 :port 8081}})
+                 :port 8081}}
+  :repl-options {:timeout 900000})
   
