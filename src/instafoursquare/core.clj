@@ -13,7 +13,8 @@
 (def center-point-xy (wgs84->dmercator center-point))
 (def packed-circle-xy-coords (round-pack-circle 3000 50 center-point-xy))
 (def packed-circle-coords (into [] (map dmercator->wgs84 packed-circle-xy-coords)))
-(def test-list (subvec packed-circle-coords 360 370))
+; (def test-list (subvec packed-circle-coords 360 370))
+(def test-list (subvec packed-circle-coords 0 800))
 (def selected-coords (nth test-list 7))
 
 
