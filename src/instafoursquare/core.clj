@@ -72,7 +72,13 @@
                            total-results (into [] (flatten (conj instagram-results twitter-results)))]
                        (conj biz {:results total-results}))))
 
-(:name (nth (reverse (sort-by #(count(:results %1)) combined-data)) 3))
+(def ordered-results (reverse (sort-by #(count (:results %1)) combined-data)))
+
+; (:name (nth ordered-results 0))
+
+; (count (:results (nth ordered-results 1)))
+
+; (map :name ordered-results)
 
 (def test-coords 
   (for [coord test-list]
