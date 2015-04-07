@@ -35,7 +35,7 @@
                       :client_secret (:client-secret foursquare-api)
                       :v (:version foursquare-api)}]
     (swap! foursquare-responses (fn [current-state]
-                                 (conj current-state (json/read-str (:body (client/gett (:endpoint foursquare-api) {:query-params query-params})) :key-fn keyword))))))
+                                 (conj current-state (json/read-str (:body (client/get (:endpoint foursquare-api) {:query-params query-params})) :key-fn keyword))))))
 
 (defn get-instagram-data
   "Given a latitude, longitude, and radius, get the instagram data for that locationxradius and store it in instagram-response"
