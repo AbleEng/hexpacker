@@ -13,19 +13,46 @@
 (def center-point-xy (wgs84->dmercator center-point))
 (def packed-circle-xy-coords (round-pack-circle 3000 50 center-point-xy))
 (def packed-circle-coords (into [] (map dmercator->wgs84 packed-circle-xy-coords)))
-; (def test-list (subvec packed-circle-coords 360 370))
-(def test-list (subvec packed-circle-coords 301 480))
+; (def test-list (subvec packed-circle-coords 301 480))
+(def test-list (subvec packed-circle-coords 301 320))
 (def selected-coords (nth test-list 7))
 
+;;; Functions for making requests at scale (adds some rate-limiting and such)
+(defn get-twitter-responses
+  [total-coord-vec]
+  (let [partitioned-coord-vec (partition 180 total-coord-vec)]
+    (flatten (for [subvec partitioned-coord-vec]
+       (do (let [responses (pmap #(get-twitter-data subvec))]
+             (Thread/sleep 900000)
+             responses))))))
 
-;({bizcoord1} {bizcoord2} {bizcoord3} {bizcoord4} {bizcoord5})
-;({mediacoord1}.......................................{mediacoordn})
-;=>
+(defn get-google-responses
+  [total-coord-vec]
+  (let [partitioned-coord-vec (partition 180 total-coord-vec)]
+    (flatten (for [subvec partitioned-coord-vec]
+               (let [responses (pmap #(get-google-places-data subvec))]             
+                 responses)))))
 
+;; (defn get-instagram-responses)
+
+;;; Make requests & store results (SMALL TEST)
 (def google-response (doall (pmap get-google-places-data test-list)))
 (doall (pmap get-instagram-data test-list))
 (doall (pmap get-twitter-data test-list))
+                
 
+(time (doall (let [test-vec (range 3000)
+             partitioned-test-vec (partition 180 test-vec)]
+         (for [subvec partitioned-test-vec]
+           (do (let [elem (first subvec)]
+                 (Thread/sleep 500)
+                 elem))))))
+
+(time (let [test-vec (range 3000)
+       partitioned-test-vec (partition 180 test-vec)]
+   (for [subvec partitioned-test-vec]
+     (first subvec))))
+;;; Transform responses to more workable states
 (def google-response-coords (flatten (let [response-results (map :results google-response)]
                               (for [result response-results]
                                 (for [sub-result result]
@@ -45,15 +72,16 @@
                                      :tweet (:text status)
                                      :location {:lat lat :lng lng}}))))))
 
-(def media-list
+(def instagram-media-list
   (map (fn [elem]
          (let [media {:link (:link elem) 
                       :location (:location elem)}]
            media)) (flatten (map :data @instagram-responses))))
 
 
+;;; Combine the data and order the results
 (def combined-data (for [biz google-response-coords]
-                     (let [instagram-results (filter #(not (nil? %1)) (for [media media-list]
+                     (let [instagram-results (filter #(not (nil? %1)) (for [media instagram-media-list]
                                                 (let [lat (:latitude (:location media))
                                                       lng (:longitude (:location media))
                                                       ll {:lat lat :lng lng}
@@ -74,6 +102,7 @@
                        (conj biz {:results total-results}))))
 
 (def ordered-results (reverse (sort-by #(count (:results %1)) combined-data)))
+
 (pprint ordered-results)
 
 ; (:name (nth ordered-results 0))
