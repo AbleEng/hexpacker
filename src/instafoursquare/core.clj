@@ -54,9 +54,12 @@
   
   (println "Making requests...")
   ;;; Make requests & store results (SMALL TEST)
+  (println "Getting Google responses...")
   (def google-response (doall (pmap get-google-places-data test-list)))
+  (println "Getting Instagram responses...")
   (doall (pmap get-instagram-data test-list))
-  (doall (pmap get-twitter-data test-list))
+  (println "Getting Twitter responses...")
+  (doall (pmap get-twitter-responses test-list))
 
   (println "Transforming results...")
   ;;; Transform responses to more workable states
