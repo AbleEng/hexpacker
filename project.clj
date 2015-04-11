@@ -12,6 +12,9 @@
                  [org.clojure/tools.nrepl "0.2.10"]
                  [org.clojure/data.json "0.2.5"]
                  [incanter "1.9.0"]]
+  :plugins [[lein-daemon "0.5.4"]]
+  :daemon {:instafoursquare {:ns instafoursquare.core
+                             :pidfile "~/out.pid"}}
   :main ^:skip-aot instafoursquare.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}}
