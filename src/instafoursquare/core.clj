@@ -42,15 +42,15 @@
   [& args]
   
   ; We want to search a large radius of 3000m with small radii 50m
-  (defonce server (start-server :port 7888))
+  ;; (defonce server (start-server :port 7888))
   (println "Setting constants...")
 
   (def center-point {:lat 30.268147 :lng -97.743926})
   (def center-point-xy (wgs84->dmercator center-point))
   (def packed-circle-xy-coords (round-pack-circle 3000 50 center-point-xy))
   (def packed-circle-coords (into [] (map dmercator->wgs84 packed-circle-xy-coords)))
-  ; (def test-list (subvec packed-circle-coords 301 480))
-  (def test-list (subvec packed-circle-coords 301 320))
+  (def test-list (subvec packed-circle-coords 300 1020))
+  ;; (def test-list (subvec packed-circle-coords 301 320))
   (def selected-coords (nth test-list 7))
   
   (println "Making requests...")
@@ -60,7 +60,7 @@
   (println "Getting Instagram responses...")
   (doall (pmap get-instagram-data test-list))
   (println "Getting Twitter responses...")
-  (doall (pmap get-twitter-data test-list))
+  (get-twitter-responses test-list)
 
   (println "Transforming results...")
   ;;; Transform responses to more workable states

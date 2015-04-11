@@ -32,7 +32,7 @@
   "Given a latitude and a longitude, get the foursquare data for that location and store it in foursquare-response"
   [coords]
   (let [query-params {:ll (string/join "," [(:lat coords) (:lng coords)])
-                      :limit 50
+                      :limit 50 
                       :radius 50
                       :intent "browse"
                       :client_id (:client-id foursquare-api)
@@ -60,6 +60,6 @@
                 :result-type "recent"
                 :count 100}]
     (swap! twitter-responses (fn [current-state]
-                               (conj current-state (:body (twitter-throttled-search  :oauth-creds twitter-creds :params params)))))))
+                               (conj current-state (:body (twitter/search-tweets  :oauth-creds twitter-creds :params params)))))))
 
 ; (pprint (:resources (:body (twitter/application-rate-limit-status :oauth-creds twitter-creds))))
