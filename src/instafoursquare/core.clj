@@ -42,7 +42,7 @@
   [& args]
   
   ; We want to search a large radius of 3000m with small radii 50m
-  ;; (defonce server (start-server :port 7888))
+  (defonce server (start-server :port 7888))
   (println "Setting constants...")
 
   (def center-point {:lat 30.268147 :lng -97.743926})
