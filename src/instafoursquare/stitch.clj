@@ -118,4 +118,4 @@
 ; (def packed-circle-coords (round-pack-circle 14969 500 center-point))
 ; (time (doall (pmap #(add-parametric plot query-circle Math/PI (- Math/PI)) packed-circle-coords)))
 
-(view plot)
+;; (view plot)

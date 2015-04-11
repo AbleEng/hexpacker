@@ -9,6 +9,7 @@
   (:use [clojure.tools.nrepl.server :only [start-server stop-server]]))
 
 
+(println "At Core")
 ;;; Functions for making requests at scale (adds some rate-limiting and such)
 (defn get-twitter-responses
   [total-coord-vec]
@@ -35,7 +36,7 @@
 
 
 
-
+(println "Defining -main")
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
@@ -59,7 +60,7 @@
   (println "Getting Instagram responses...")
   (doall (pmap get-instagram-data test-list))
   (println "Getting Twitter responses...")
-  (doall (pmap get-twitter-responses test-list))
+  (doall (pmap get-twitter-data test-list))
 
   (println "Transforming results...")
   ;;; Transform responses to more workable states
