@@ -9,6 +9,7 @@
                  [twitter-api "0.7.8"]
                  [ring "1.3.0"]
                  [throttler "1.0.0"]
+                 [org.clojure/tools.nrepl "0.2.10"]
                  [org.clojure/data.json "0.2.5"]
                  [incanter "1.9.0"]]
   :main ^:skip-aot instafoursquare.core
