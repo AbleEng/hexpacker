@@ -9,33 +9,6 @@
   (:use [clojure.tools.nrepl.server :only [start-server stop-server]]))
 
 
-(println "At Core")
-;;; Functions for making requests at scale (adds some rate-limiting and such)
-(defn get-twitter-responses
-  [total-coord-vec]
-  (let [partitioned-coord-vec (partition 180 total-coord-vec)]
-    (flatten (for [subvec partitioned-coord-vec]
-       (do (let [responses (pmap get-twitter-data subvec)]
-             (Thread/sleep 900000)
-             responses))))))
-
-(defn get-google-responses
-  [total-coord-vec]
-  (let [partitioned-coord-vec (partition 180 total-coord-vec)]
-    (flatten (for [subvec partitioned-coord-vec]
-               (let [responses (pmap #(get-google-places-data subvec))]             
-                 responses)))))
-
-;; (defn get-instagram-responses)
-
-; (:name (nth ordered-results 0))
-
-; (count (:results (nth ordered-results 1)))
-
-; (map :name ordered-results)
-
-
-
 (println "Defining -main")
 (defn -main
   "I don't do a whole lot ... yet."
@@ -50,10 +23,10 @@
   (def packed-circle-xy-coords (round-pack-circle 3000 50 center-point-xy))
   (def packed-circle-coords (into [] (map dmercator->wgs84 packed-circle-xy-coords)))
   (def test-list (subvec packed-circle-coords 300 1020))
-  ;; (def test-list (subvec packed-circle-coords 301 320))
   (def selected-coords (nth test-list 7))
   
-  (println "Making requests...")
+  (let [req-num (count packed-circle-coords)]
+    (println (str "Making " req-num " requests to Google, Instagram, and Twitter...")))
   ;;; Make requests & store results (SMALL TEST)
   ;; (println "Getting Google responses...")
   ;; (def google-response (pmap get-google-places-data test-list))
