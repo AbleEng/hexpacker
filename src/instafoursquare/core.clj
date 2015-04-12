@@ -15,7 +15,7 @@
   [total-coord-vec]
   (let [partitioned-coord-vec (partition 180 total-coord-vec)]
     (flatten (for [subvec partitioned-coord-vec]
-       (do (let [responses (pmap #(get-twitter-data subvec))]
+       (do (let [responses (pmap get-twitter-data subvec)]
              (Thread/sleep 900000)
              responses))))))
 
@@ -58,9 +58,9 @@
   (println "Getting Google responses...")
   (def google-response (doall (pmap get-google-places-data test-list)))
   (println "Getting Instagram responses...")
-  (doall (pmap get-instagram-data test-list))
+  (doall (map get-instagram-data test-list))
   (println "Getting Twitter responses...")
-  (get-twitter-responses test-list)
+  (doall (map get-twitter-data test-list))
 
   (println "Transforming results...")
   ;;; Transform responses to more workable states
