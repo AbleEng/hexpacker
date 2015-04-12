@@ -55,12 +55,22 @@
   
   (println "Making requests...")
   ;;; Make requests & store results (SMALL TEST)
+  ;; (println "Getting Google responses...")
+  ;; (def google-response (pmap get-google-places-data test-list))
+  ;; (println "Getting Instagram responses...")
+  ;; (map get-instagram-data test-list)
+  ;; (println "Getting Twitter responses...")
+  ;; (map get-twitter-data test-list) 
+
+  ;;; Make requests & store results (SCALED TEST)
   (println "Getting Google responses...")
-  (def google-response (pmap get-google-places-data test-list))
-  (println "Getting Instagram responses...")
-  (map get-instagram-data test-list)
+  (def google-response (pmap get-google-places-data packed-circle-coords))
+
   (println "Getting Twitter responses...")
-  (map get-twitter-data test-list) 
+  (map get-twitter-data packed-circle-coords)
+
+  (println "Getting Instagram responses...")
+  (map get-instagram-data packed-circle-coords)
 
   (println "Transforming results...")
   ;;; Transform responses to more workable states
