@@ -37,13 +37,13 @@
 
   ;;; Make requests & store results (SCALED TEST)
   (println "Getting Google responses...")
-  (def google-response (pmap get-google-places-data packed-circle-coords))
+  (def google-response (doall (pmap get-google-places-data packed-circle-coords)))
 
   (println "Getting Twitter responses...")
-  (map get-twitter-data packed-circle-coords)
+  (doall (map get-twitter-data packed-circle-coords))
 
   (println "Getting Instagram responses...")
-  (map get-instagram-data packed-circle-coords)
+  (doall (map get-instagram-data packed-circle-coords))
 
   (println "Transforming results...")
   ;;; Transform responses to more workable states
