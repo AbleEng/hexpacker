@@ -56,11 +56,11 @@
   (println "Making requests...")
   ;;; Make requests & store results (SMALL TEST)
   (println "Getting Google responses...")
-  (def google-response (doall (pmap get-google-places-data test-list)))
+  (def google-response (pmap get-google-places-data test-list))
   (println "Getting Instagram responses...")
-  (doall (map get-instagram-data test-list))
+  (map get-instagram-data test-list)
   (println "Getting Twitter responses...")
-  (doall (map get-twitter-data test-list))
+  (map get-twitter-data test-list) 
 
   (println "Transforming results...")
   ;;; Transform responses to more workable states
@@ -112,7 +112,7 @@
                              total-results (into [] (flatten (conj instagram-results twitter-results)))]
                          (conj biz {:results total-results}))))
 
-  (def ordered-results (reverse (sort-by #(count (:results %1)) combined-data)))
+  (def ordered-results (reverse (sort-by #(count (:results %1)) combined-data))) 
   ;; (pprint ordered-results)
 
   ;; For debugging

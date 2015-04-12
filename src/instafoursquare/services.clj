@@ -13,7 +13,7 @@
 (println "Creating throttled pipelines")
 ;;; Create throttled pipelines
 (def google-throttled-get (throttle-fn client/get 20 :second))
-(def twitter-throttled-search (throttle-fn twitter/search-tweets 720 :hour))
+(def twitter-throttled-search (throttle-fn twitter/search-tweets 10 :minute))
 (def instagram-throttled-get (throttle-fn client/get 5000 :hour))
 
 
@@ -60,6 +60,6 @@
                 :result-type "recent"
                 :count 100}]
     (swap! twitter-responses (fn [current-state]
-                               (conj current-state (:body (twitter/search-tweets  :oauth-creds twitter-creds :params params)))))))
+                               (conj current-state (:body (twitter-throttled-search  :oauth-creds twitter-creds :params params)))))))
 
 ; (pprint (:resources (:body (twitter/application-rate-limit-status :oauth-creds twitter-creds))))
