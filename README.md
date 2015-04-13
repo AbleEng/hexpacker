@@ -1,14 +1,12 @@
 # Instafoursquare
 
-Combine Instagram & Foursquare data to determine the most popular businesses in a given area.
+Using circle-in-circle-on-sphere packing to canvas large geographical areas and discern interesting facts at macro scales.
 
 ## Installation
 
 TODO
 
 ## Usage
-
-FIXME: explanation
 
     $ java -jar instafoursquare-0.1.0-standalone.jar [args]
 
@@ -21,7 +19,9 @@ FIXME: explanation
 
 + Using spherical approximation of earth (versus spheroid) because it's a simpler model. It introduces some error, but who cares?
 
-+ Treating bounding circles as mapped to 2D instead of 3D. If 3D: http://en.wikipedia.org/wiki/Thomson_problem
++ Consistent with the same assumptions used by most consumer-level GIS services (i.e: Google).
+
++ Using mercator projection to overlay 2D mesh (circle packing) onto 3D surface (Earth)
 + Distance from point < 15m = match.
     * Potbelly @ 30.286843,-97.741953
     * https://instagram.com/p/08Q3mqmziS/ @ 0.0128km away

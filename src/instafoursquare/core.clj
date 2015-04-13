@@ -37,7 +37,7 @@
 
   ;;; Make requests & store results (SCALED TEST)
   (println "Getting Google responses...")
-  (def google-response (doall (pmap get-google-places-data packed-circle-coords)))
+  (def google-response (doall (map get-google-places-data packed-circle-coords)))
 
   (println "Getting Twitter responses...")
   (doall (map get-twitter-data packed-circle-coords))
@@ -47,11 +47,11 @@
 
   (println "Transforming results...")
   ;;; Transform responses to more workable states
-  (def google-response-coords (flatten (let [response-results (map :results google-response)]
-                                         (for [result response-results]
-                                           (for [sub-result result]
-                                             {:name (:name sub-result)
-                                              :location (:location (:geometry sub-result))})))))
+  (def google-response-coords (set (flatten (let [response-results (map :results google-response)]
+                                          (for [result response-results]
+                                            (for [sub-result result]
+                                              {:name (:name sub-result)
+                                               :location (:location (:geometry sub-result))}))))))
 
   (def twitter-statuses (filter (fn [elem]
                                   (if (and 

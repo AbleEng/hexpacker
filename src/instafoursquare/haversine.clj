@@ -5,7 +5,6 @@
 ; c = 2 ⋅ atan2( √a, √(1−a) )
 ; d = R ⋅ c
 ; where φ is latitude, λ is longitude, R is earth’s radius (mean radius = 6,371km);
-; note that angles need to be in radians to pass to trig functions!
 
 (defn haversine
   "Implementation of Haversine formula. Takes two sets of latitude/longitude pairs and returns the shortest great circle distance between them (in km)"
@@ -15,7 +14,9 @@
         dlon (Math/toRadians (- lon2 lon1))
         lat1 (Math/toRadians lat1)
         lat2 (Math/toRadians lat2)
-        a (+ (* (Math/sin (/ dlat 2)) (Math/sin (/ dlat 2))) (* (Math/sin (/ dlon 2)) (Math/sin (/ dlon 2)) (Math/cos lat1) (Math/cos lat2)))]
+        a (+
+           (* (Math/sin (/ dlat 2)) (Math/sin (/ dlat 2)))
+           (* (Math/sin (/ dlon 2)) (Math/sin (/ dlon 2)) (Math/cos lat1) (Math/cos lat2)))]
     (* R 2 (Math/asin (Math/sqrt a)))))
 
 ; Reverse haversine to derive lat/long from start point, bearing (degrees clockwise from north), & distance (km)
@@ -31,7 +32,12 @@
         lon1 (Math/toRadians lon)
         angdist (/ distance R)
         theta (Math/toRadians bearing)
-        lat2 (Math/toDegrees (Math/asin (+ (* (Math/sin lat1) (Math/cos angdist)) (* (Math/cos lat1) (Math/sin angdist) (Math/cos theta)))))
-        lon2 (Math/toDegrees (+ lon1 (Math/atan2 (* (Math/sin theta) (Math/sin angdist) (Math/cos lat1)) (- (Math/cos angdist) (* (Math/sin lat1) (Math/sin lat2))))))]
+        lat2 (Math/toDegrees (Math/asin (+
+                                         (* (Math/sin lat1) (Math/cos angdist))
+                                         (* (Math/cos lat1) (Math/sin angdist) (Math/cos theta)))))
+        lon2 (Math/toDegrees (+ lon1
+                                (Math/atan2
+                                 (* (Math/sin theta) (Math/sin angdist) (Math/cos lat1))
+                                 (- (Math/cos angdist) (* (Math/sin lat1) (Math/sin lat2))))))]
     {:lat lat2 
      :lng lon2}))
