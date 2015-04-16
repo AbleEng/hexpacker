@@ -1,4 +1,4 @@
-(ns instafoursquare.mercator)
+(ns hexpacker.mercator)
 
 ; Spherical Mercator projection algorithm
 (def r-major 6378137.0) ; approximated radius of earth
@@ -32,11 +32,13 @@
       (- ay (/ Math/PI 2)))))
 
 (defn wgs84->mercator
+  "Only currently useful for xy plotting purposes. Not reliable for distance measurements"
   [coordinates]
   (let [{:keys [lat lng]} coordinates]
     {:x (lng->x lng) :y (lat->y lat)}))
 
 (defn mercator->wgs84
+  "Only currently useful for xy plotting purposes. Not reliable for distance measurements"
   [coordinates]
   (let [{:keys [x y]} coordinates]
     {:lat (y->lat y) :lng (x->lng x)}))

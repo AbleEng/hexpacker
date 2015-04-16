@@ -1,6 +1,6 @@
-(ns instafoursquare.core-test
+(ns hexpacker.core-test
   (:require [clojure.test :refer :all]
-            [instafoursquare.core :refer :all]))
+            [hexpacker.core :refer :all]))
 
 (deftest a-test
   (testing "FIXME, I fail."

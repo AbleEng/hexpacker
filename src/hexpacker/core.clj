@@ -1,10 +1,10 @@
-(ns instafoursquare.core
+(ns hexpacker.core
   (:gen-class)
-  (:require [instafoursquare.services :refer [instagram-responses twitter-responses get-google-places-data get-instagram-data get-twitter-data]]
-            [instafoursquare.web]
-            [instafoursquare.mercator :refer [wgs84->dmercator dmercator->wgs84]]
-            [instafoursquare.stitch :refer [min-circles round-pack-circle]]
-            [instafoursquare.haversine :refer [haversine]]
+  (:require [hexpacker.services :refer [instagram-responses twitter-responses get-google-places-data get-instagram-data get-twitter-data]]
+            [hexpacker.web]
+            [hexpacker.mercator :refer [wgs84->dmercator dmercator->wgs84]]
+            [hexpacker.stitch :refer [min-circles round-pack-circle]]
+            [hexpacker.haversine :refer [haversine]]
             [clojure.string :as string])
   (:use [clojure.tools.nrepl.server :only [start-server stop-server]]))
 

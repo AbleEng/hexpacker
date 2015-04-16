@@ -1,4 +1,4 @@
-(ns instafoursquare.haversine)
+(ns hexpacker.haversine)
 
 ; Haversine formula
 ; a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)

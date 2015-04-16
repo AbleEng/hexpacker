@@ -1,6 +1,6 @@
-(ns instafoursquare.stitch
-  (:require [instafoursquare.mercator :refer [wgs84->mercator mercator->wgs84]]
-            [instafoursquare.haversine :refer [haversine reverse-haversine]])
+(ns hexpacker.stitch
+  (:require [hexpacker.mercator :refer [wgs84->mercator mercator->wgs84]]
+            [hexpacker.haversine :refer [haversine reverse-haversine]])
   (:use [incanter core charts]))
 
 (defn min-circles
@@ -114,9 +114,9 @@
                            :y-label "Distance Y")]
             p))
 
-(def center-point {:lat 30.2500  :lng -97.7500})
-(def center-point-xy (wgs84->mercator center-point))
-(def packed-circle-coords (round-pack-circle 3000 50 center-point-xy))
-;; (time (doall (pmap #(add-parametric plot (circle (:x %1) (:y %1) 50) Math/PI (- Math/PI)) packed-circle-coords)))
+;; (def center-point {:lat 30.2500  :lng 97.7500})
+;; (def center-point-xy (wgs84->mercator center-point))
+;; (def packed-circle-coords (round-pack-circle 3000 50 center-point-xy))
+;; (time (doall (map #(add-parametric plot (circle (:x %1) (:y %1) 50) Math/PI (- Math/PI)) packed-circle-coords)))
 
 ;; (view plot)

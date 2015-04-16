@@ -1,4 +1,4 @@
-(ns instafoursquare.web
+(ns hexpacker.web
   (:require [compojure.core :refer :all]
             [compojure.handler :as handler]
             [compojure.route :as route]

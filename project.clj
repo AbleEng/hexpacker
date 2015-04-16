@@ -1,4 +1,4 @@
-(defproject instafoursquare "0.1.0-SNAPSHOT"
+(defproject hexpacker "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
@@ -13,12 +13,12 @@
                  [org.clojure/data.json "0.2.5"]
                  [incanter "1.9.0"]]
   :plugins [[lein-daemon "0.5.4"]]
-  :daemon {:instafoursquare {:ns instafoursquare.core
-                             :pidfile "~/out.pid"}}
-  :main ^:skip-aot instafoursquare.core
+  :daemon {:hexpacker {:ns hexpacker.core
+                       :pidfile "~/out.pid"}}
+  :main ^:skip-aot hexpacker.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}}
-  :ring {:handler instafoursquare.web/app
+  :ring {:handler hexpacker.web/app
          :adapter {:port 8080
                    :join? false}
          :auto-reload? true

@@ -1,5 +1,5 @@
-(ns instafoursquare.services
-  (:require [instafoursquare.config :refer [foursquare-api instagram-api google-api twitter-creds]]
+(ns hexpacker.services
+  (:require [hexpacker.config :refer [foursquare-api instagram-api google-api twitter-creds]]
             [clj-http.client :as client]
             [twitter.api.restful :as twitter]
             [clojure.data.json :as json]
