@@ -6,7 +6,6 @@
             [throttler.core :refer [fn-throttler throttle-fn]]
             [clojure.string :as string]))
 (println "Defining the atoms")
-(def foursquare-responses (atom []))
 (def instagram-responses (atom []))
 (def twitter-responses (atom []))
 
@@ -26,21 +25,6 @@
                       :types "bakery|bar|cafe|food|grocery_or_supermarket|meal_delivery|meal_takeaway|restaurant"
                       :key (:key google-api)}]
     (json/read-str (:body (google-throttled-get (:endpoint google-api) {:query-params query-params})) :key-fn keyword)))
-
-
-(println "Defining get-foursquare-data")
-(defn get-foursquare-data 
-  "Given a latitude and a longitude, get the foursquare data for that location and store it in foursquare-response"
-  [coords]
-  (let [query-params {:ll (string/join "," [(:lat coords) (:lng coords)])
-                      :limit 50 
-                      :radius 50
-                      :intent "browse"
-                      :client_id (:client-id foursquare-api)
-                      :client_secret (:client-secret foursquare-api)
-                      :v (:version foursquare-api)}]
-    (swap! foursquare-responses (fn [current-state]
-                                 (conj current-state (json/read-str (:body (client/get (:endpoint foursquare-api) {:query-params query-params})) :key-fn keyword))))))
 
 (println "Defining get-instagram-data")
 (defn get-instagram-data
