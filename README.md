@@ -20,10 +20,15 @@ A hexagonal circle packing implementation for canvasing/sampling large geographi
 ## Examples
 
 If you wanted to generate the collection of packed circles bounded by a large radius of 3KM, and smaller radii of 50 meters:
-   (def center-point {:lat 30.268147 :lng -97.743926})
-   (def packed-circle-coords (pack-geo-circle center-point 3000 50))
-   (count packed-circle-coords)
-   ;=> 2791
+
+```clojure
+(ns hexpacker.stitch)
+(def center-point {:lat 30.268147 :lng -97.743926})
+(def packed-circle-coords (pack-geo-circle center-point 3000 50))
+(count packed-circle-coords)
+;=> 2791
+```
+This repo hasn't been "library-ized" just yet, but I may spin out the mercator, haversine, and stitching components into separate modules.
 
 ### Notes
 
