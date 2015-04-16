@@ -66,7 +66,7 @@
                        (map #(rotate-about %1 center 60) flat-triangle)) flat-pascals-triangle))))))
 
 (defn round-pack-circle
-  "Generates rounded values for x-y coordinates from pack-circle"
+  "Generates rounded values for x-y coordinates from pack-circle. Center should be provided as a hashmap of format {:x x :y y}"
   [r1 r2 center]
   (let [packed-circle-coords (pack-circle r1 r2 center)]
     (set (map (fn [{x :x
@@ -75,8 +75,7 @@
              roundy (read-string (format "%.10f" y))]
          {:x roundx :y roundy})) packed-circle-coords))))
 
-; Assuming area of Austin, TX is 704 km² @ lat 30.2500 long 97.7500
-; Therefore, the radius of austin is ~ 14969.64127 m
+
 (defmacro circle
   "Returns a function for a circle given h (x offset), k (y offset), and r (radius)."
   [h k r]
@@ -115,7 +114,9 @@
                            :y-label "Distance Y")]
             p))
 
-; (def packed-circle-coords (round-pack-circle 14969 500 center-point))
-; (time (doall (pmap #(add-parametric plot query-circle Math/PI (- Math/PI)) packed-circle-coords)))
+(def center-point {:lat 30.2500  :lng -97.7500})
+(def center-point-xy (wgs84->mercator center-point))
+(def packed-circle-coords (round-pack-circle 3000 50 center-point-xy))
+;; (time (doall (pmap #(add-parametric plot (circle (:x %1) (:y %1) 50) Math/PI (- Math/PI)) packed-circle-coords)))
 
 ;; (view plot)

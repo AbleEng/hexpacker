@@ -8,6 +8,12 @@ TODO
 
 ## Usage
 
+#### To play:
+
+    $ lein repl
+
+#### To work:
+
     $ java -jar instafoursquare-0.1.0-standalone.jar [args]
 
 
