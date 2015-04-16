@@ -1,5 +1,5 @@
 (ns hexpacker.stitch
-  (:require [hexpacker.mercator :refer [wgs84->mercator mercator->wgs84]]
+  (:require [hexpacker.mercator :refer [wgs84->mercator wgs84->dmercator mercator->wgs84 dmercator->wgs84]]
             [hexpacker.haversine :refer [haversine reverse-haversine]])
   (:use [incanter core charts]))
 
@@ -71,9 +71,17 @@
   (let [packed-circle-coords (pack-circle r1 r2 center)]
     (set (map (fn [{x :x
                 y :y}]
-       (let [roundx (read-string (format "%.10f" x))
-             roundy (read-string (format "%.10f" y))]
+       (let [roundx (read-string (format "%.6f" x))
+             roundy (read-string (format "%.6f" y))]
          {:x roundx :y roundy})) packed-circle-coords))))
+
+(defn pack-geo-circle
+  "Given a latitude/longitude center point, a large bounding area of radius r1, and a smaller radius r2, generate the lat/long coordinates of all of the circles of r2 that pack the area of r1."
+  [center-point r1 r2]
+  (let [center-point-xy (wgs84->dmercator center-point)
+        packed-circle-xy-coords (round-pack-circle r1 r2 center-point-xy)
+        packed-circle-coords (into [] (map dmercator->wgs84 packed-circle-xy-coords))]
+    packed-circle-coords))
 
 
 (defmacro circle
@@ -113,7 +121,7 @@
                            :x-label "Distance X"
                            :y-label "Distance Y")]
             p))
-
+; For plotting:
 ;; (def center-point {:lat 30.2500  :lng 97.7500})
 ;; (def center-point-xy (wgs84->mercator center-point))
 ;; (def packed-circle-coords (round-pack-circle 3000 50 center-point-xy))

@@ -1,10 +1,10 @@
-# Instafoursquare
+# hexpacker
 
-Using circle-in-circle-on-sphere packing to canvas large geographical areas and discern interesting facts at macro scales.
+A hexagonal circle packing implementation for canvasing/sampling large geographical areas (specifically optimized for Google/Instagram/Twitter APIs)
 
 ## Installation
 
-TODO
+   $ git clone git@github.com:shayanjm/hexpacker.git
 
 ## Usage
 
@@ -14,12 +14,16 @@ TODO
 
 #### To work:
 
-    $ java -jar instafoursquare-0.1.0-standalone.jar [args]
+    $ java -jar hexpacker-0.1.0-standalone.jar [args]
 
 
 ## Examples
 
-...
+If you wanted to generate the collection of packed circles bounded by a large radius of 3KM, and smaller radii of 50 meters:
+   (def center-point {:lat 30.268147 :lng -97.743926})
+   (def packed-circle-coords (pack-geo-circle center-point 3000 50))
+   (count packed-circle-coords)
+   ;=> 2791
 
 ### Notes
 

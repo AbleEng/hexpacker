@@ -3,7 +3,7 @@
   (:require [hexpacker.services :refer [instagram-responses twitter-responses get-google-places-data get-instagram-data get-twitter-data]]
             [hexpacker.web]
             [hexpacker.mercator :refer [wgs84->dmercator dmercator->wgs84]]
-            [hexpacker.stitch :refer [min-circles round-pack-circle]]
+            [hexpacker.stitch :refer [min-circles pack-geo-circle]]
             [hexpacker.haversine :refer [haversine]]
             [clojure.string :as string])
   (:use [clojure.tools.nrepl.server :only [start-server stop-server]]))
@@ -19,9 +19,7 @@
   (println "Setting constants...")
 
   (def center-point {:lat 30.268147 :lng -97.743926})
-  (def center-point-xy (wgs84->dmercator center-point))
-  (def packed-circle-xy-coords (round-pack-circle 3000 50 center-point-xy))
-  (def packed-circle-coords (into [] (map dmercator->wgs84 packed-circle-xy-coords)))
+  (def packed-circle-coords (pack-geo-circle center-point 3000 50))
   (def test-list (subvec packed-circle-coords 300 1020))
   (def selected-coords (nth test-list 7))
   
