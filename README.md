@@ -18,7 +18,7 @@ A hexagonal circle packing implementation for canvasing/sampling large geographi
     $ java -jar hexpacker-0.1.0-standalone.jar [args]
 
 
-## Examples
+## Example
 
 If you wanted to generate the collection of packed circles bounded by a large radius of 3KM, and smaller radii of 50 meters:
 
@@ -42,19 +42,9 @@ Since this repo is an implementation (as opposed to a library), you will have to
 
 + `hexpacker.haversine` contains the haversine (and reverse-haversine) implementations.
 
-Realistically, you should only need to load hexpacker.stitch/pack-geo-circle function if you just want to generate circle packings.
-### Notes
++ `hexpacker.core` is the actual 'implementation' for data gathering. You can use it as an example to build out your own cool projects.
 
-+ 
-
-+ Using spherical approximation of earth (versus spheroid) because it's a simpler model. It introduces some error, but who cares?
-
-+ Consistent with the same assumptions used by most consumer-level GIS services (i.e: Google).
-
-+ Using mercator projection to overlay 2D mesh (circle packing) onto 3D surface (Earth)
-+ Distance from point < 15m = match.
-    * Potbelly @ 30.286843,-97.741953
-    * https://instagram.com/p/08Q3mqmziS/ @ 0.0128km away
+Realistically, you should only need to load the `hexpacker.stitch/pack-geo-circle` function if you just want to generate circle packings.
 
 
 ## License
