@@ -4,7 +4,7 @@ A hexagonal circle packing implementation for canvasing/sampling large geographi
 
 ## Installation
 
-   $ git clone git@github.com:shayanjm/hexpacker.git
+    $ git clone git@github.com:shayanjm/hexpacker.git
 
 ## Usage
 
@@ -14,6 +14,7 @@ A hexagonal circle packing implementation for canvasing/sampling large geographi
 
 #### To work:
 
+    $ lein uberjar
     $ java -jar hexpacker-0.1.0-standalone.jar [args]
 
 
@@ -30,7 +31,21 @@ If you wanted to generate the collection of packed circles bounded by a large ra
 ```
 This repo hasn't been "library-ized" just yet, but I may spin out the mercator, haversine, and stitching components into separate modules.
 
+
+## Calling hexpacker from your code
+
+Since this repo is an implementation (as opposed to a library), you will have to load/include the appropriate namespaces manually.
+
++ `hexpacker.stitch` contains all of the code pertaining to circle packing/coordinate generation. Incanter is also included in this namespace in case you want to run some tests via plotting.
+
++ `hexpacker.mercator` contains the mercator projection definitions (keep in mind that there are some artifacts in the file for niceness when plotting with incanter)
+
++ `hexpacker.haversine` contains the haversine (and reverse-haversine) implementations.
+
+Realistically, you should only need to load hexpacker.stitch/pack-geo-circle function if you just want to generate circle packings.
 ### Notes
+
++ 
 
 + Using spherical approximation of earth (versus spheroid) because it's a simpler model. It introduces some error, but who cares?
 
@@ -42,12 +57,25 @@ This repo hasn't been "library-ized" just yet, but I may spin out the mercator, 
     * https://instagram.com/p/08Q3mqmziS/ @ 0.0128km away
 
 
-### TODO
-
-
 ## License
+The MIT License (MIT)
 
-Copyright © 2015 FIXME
+Copyright © 2015 Shayan Mohanty
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
