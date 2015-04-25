@@ -2,6 +2,8 @@
 
 A hexagonal circle packing implementation for canvasing/sampling large geographical areas (specifically optimized for Google/Instagram/Twitter APIs)
 
+*[Here's](http://blog.ablelending.com/post/117268294258/spherical-trigonometry-circle-packing-and-lead) the blog post that explains the project and process behind it.*
+
 ![screenshot](https://camo.githubusercontent.com/0ee61a5173d3e8e0103b544c6711857510fa2dc1/687474703a2f2f7075752e73682f68676a56762f393839386238336361332e706e67)
 
 ## Installation
