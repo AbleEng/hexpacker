@@ -20,7 +20,7 @@
   (println "Setting constants...")
 
   (def center-point {:lat 30.268147 :lng -97.743926})
-  (def packed-circle-coords (pack-geo-circle center-point 3000 15))
+  (def packed-circle-coords (pack-geo-circle center-point 3000 10))
   (def test-list (subvec packed-circle-coords 300 1020))
   (def selected-coords (nth test-list 7))
   
@@ -110,8 +110,9 @@
                                                  {:name (:name sub-result)
                                                   :place_id (:place_id sub-result)
                                                   :types (:types sub-result)}))))))
-  
+  (println "Writing to /tmp/results.csv")
   (write-csv "/tmp/results.csv" google-places-cleaned)
+  (println "Finished writing")
 
   ;; For debugging
   (def test-coords 
