@@ -5,6 +5,7 @@
             [hexpacker.mercator :refer [wgs84->dmercator dmercator->wgs84]]
             [hexpacker.stitch :refer [min-circles pack-geo-circle]]
             [hexpacker.haversine :refer [haversine]]
+            [hexpacker.csv :refer [write-csv]]
             [clojure.string :as string])
   (:use [clojure.tools.nrepl.server :only [start-server stop-server]]))
 
@@ -19,29 +20,31 @@
   (println "Setting constants...")
 
   (def center-point {:lat 30.268147 :lng -97.743926})
-  (def packed-circle-coords (pack-geo-circle center-point 3000 50))
+  (def packed-circle-coords (pack-geo-circle center-point 3000 25))
   (def test-list (subvec packed-circle-coords 300 1020))
   (def selected-coords (nth test-list 7))
   
   (let [req-num (count packed-circle-coords)]
     (println (str "Making " req-num " requests to Google, Instagram, and Twitter...")))
   ;;; Make requests & store results (SMALL TEST)
-  ;; (println "Getting Google responses...")
-  ;; (def google-response (pmap get-google-places-data test-list))
-  ;; (println "Getting Instagram responses...")
-  ;; (map get-instagram-data test-list)
-  ;; (println "Getting Twitter responses...")
-  ;; (map get-twitter-data test-list) 
-
-  ;;; Make requests & store results (SCALED TEST)
   (println "Getting Google responses...")
-  (def google-response (doall (map get-google-places-data packed-circle-coords)))
-
-  (println "Getting Twitter responses...")
-  (doall (map get-twitter-data packed-circle-coords))
+  (def google-response (pmap get-google-places-data test-list))
 
   (println "Getting Instagram responses...")
-  (doall (map get-instagram-data packed-circle-coords))
+  (map get-instagram-data test-list)
+
+  (println "Getting Twitter responses...")
+  (map get-twitter-data test-list) 
+
+  ;;; Make requests & store results (SCALED TEST)
+  ;; (println "Getting Google responses...")
+  ;; (def google-response (doall (map get-google-places-data packed-circle-coords)))
+
+  ;; (println "Getting Twitter responses...")
+  ;; (doall (map get-twitter-data packed-circle-coords))
+
+  ;; (println "Getting Instagram responses...")
+  ;; (doall (map get-instagram-data packed-circle-coords))
 
   (println "Transforming results...")
   ;;; Transform responses to more workable states
@@ -50,6 +53,13 @@
                                             (for [sub-result result]
                                               {:name (:name sub-result)
                                                :location (:location (:geometry sub-result))}))))))
+
+  (def google-places-cleaned (set (flatten (let [response-results (map :results google-response)]
+                                             (for [result response-results]
+                                               (for [sub-result result]
+                                                 {:name (:name sub-result)
+                                                  :place_id (:place_id sub-result)
+                                                  :types (:types sub-result)}))))))
 
   (def twitter-statuses (filter (fn [elem]
                                   (if (and 
