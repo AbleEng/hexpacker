@@ -26,5 +26,6 @@
          :auto-refresh? true
          :nrepl {:start? true
                  :port 8081}}
-  :repl-options {:timeout 900000})
+  :repl-options {:timeout 900000}
+  :jvm-opts ["-Xmx2g"])
   
