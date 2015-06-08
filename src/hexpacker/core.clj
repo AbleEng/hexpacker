@@ -19,8 +19,8 @@
   (defonce server (start-server :port 7888))
   (println "Setting constants...")
 
-  (def center-point {:lat 32.7767 :lng -96.7970})
-  (def packed-circle-coords (pack-geo-circle center-point 16511 15))
+  (def center-point {:lat 30.268147 :lng -97.743926})
+  (def packed-circle-coords (pack-geo-circle center-point 3000 15))
   (def test-list (subvec packed-circle-coords 300 1020))
   (def selected-coords (nth test-list 7))
   
