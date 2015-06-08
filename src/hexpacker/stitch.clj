@@ -25,7 +25,7 @@
 (defn generate-next-layer
   "Given a vector of hashmaps containing x-y coordinates of a layer of circles forming 'Pascals Triangle', returns the next layer."
   [previous-layer]
-  (let [r2 50]
+  (let [r2 15]
     (into [] 
           (set (flatten 
               (map (fn [elem]
