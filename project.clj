@@ -1,4 +1,4 @@
-(defproject hexpacker "0.1.0-SNAPSHOT"
+(defproject hexpacker "0.1.1-SNAPSHOT"
   :description "A hexagonal circle packing implementation for canvasing/sampling large geographical areas (specifically optimized for Google/Instagram/Twitter APIs)"
   :url "http://example.com/FIXME"
   :license {:name "MIT License"
@@ -18,7 +18,10 @@
                        :pidfile "~/out.pid"}}
   :main ^:skip-aot hexpacker.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}}
+  :profiles {:gen {:main hexpacker.gen
+                   :uberjar-name "gen.0.1.1-SNAPSHOT.jar"}
+             :work {:main hexpacker.work
+                    :uberjar-name "work.0.1.1-SNAPSHOT.jar"}}
   :ring {:handler hexpacker.web/app
          :adapter {:port 8080
                    :join? false}
