@@ -5,7 +5,7 @@
 (defn -main
   [& args]
 
-  (def packed-circle-coords (line-seq (java.io.BufferedReader. *in*)))
+  (def packed-circle-coords (read-string (slurp *in*)))
   
   (let [req-num (count packed-circle-coords)]
     (println (str "Making " req-num " requests to Google, Instagram, and Twitter...")))
@@ -21,4 +21,5 @@
                                                   :place_id (:place_id sub-result)
                                                   :types (:types sub-result)}))))))
   (println "Doing something with the data")
+  (println google-places-cleaned)
   )
