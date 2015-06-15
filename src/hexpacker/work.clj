@@ -5,14 +5,14 @@
 ;;; TODO: Thread r2 from gen -> work
 ;; (println "Defining -main for Worker")
 (defn -main
-  [& args]
+  [radius & args]
 
   (def packed-circle-coords (read-string (slurp *in*)))
   
   ;; (let [req-num (count packed-circle-coords)]
   ;;   (println (str "Making " req-num " requests to Google, Instagram, and Twitter...")))
   ;; (println "Getting Google responses...")
-  (def google-response (doall (map get-google-places-data packed-circle-coords)))
+  (def google-response (doall (map #(get-google-places-data %1 radius) packed-circle-coords)))
 
   ;; (println "Transforming results...")
 
