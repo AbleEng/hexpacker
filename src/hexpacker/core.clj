@@ -24,6 +24,7 @@
   (def test-list (subvec packed-circle-coords 300 1020))
   (def selected-coords (nth test-list 7))
   
+  
   (let [req-num (count packed-circle-coords)]
     (println (str "Making " req-num " requests to Google, Instagram, and Twitter...")))
   ;;; Make requests & store results (SMALL TEST)
