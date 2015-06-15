@@ -5,18 +5,18 @@
             [clojure.data.json :as json]
             [throttler.core :refer [fn-throttler throttle-fn]]
             [clojure.string :as string]))
-(println "Defining the atoms")
+;; (println "Defining the atoms")
 (def instagram-responses (atom []))
 (def twitter-responses (atom []))
 
-(println "Creating throttled pipelines")
+;; (println "Creating throttled pipelines")
 ;;; Create throttled pipelines
 (def google-throttled-get (throttle-fn client/get 20 :second))
 (def twitter-throttled-search (throttle-fn twitter/search-tweets 10 :minute))
 (def instagram-throttled-get (throttle-fn client/get 5000 :hour))
 
 
-(println "Defining get-google-places-data")
+;; (println "Defining get-google-places-data")
 
 ;;"bakery|bar|cafe|food|grocery_or_supermarket|meal_delivery|meal_takeaway|restaurant"
 (defn get-google-places-data
@@ -32,7 +32,7 @@
                                                  (nil? (System/getenv "WORKER")) (:endpoint (:1 google-api))
                                                  :else (:endpoint ((keyword (System/getenv "WORKER")) google-api))) {:query-params query-params})) :key-fn keyword)))
 
-(println "Defining get-instagram-data")
+;; (println "Defining get-instagram-data")
 (defn get-instagram-data
   "Given a latitude, longitude, and radius, get the instagram data for that locationxradius and store it in instagram-response"
   [coords]
@@ -43,7 +43,7 @@
     (swap! instagram-responses (fn [current-state]
                                  (conj current-state (json/read-str (:body (instagram-throttled-get (:endpoint instagram-api) {:query-params query-params})) :key-fn keyword))))))
 
-(println "Defining get-twitter-data")
+;; (println "Defining get-twitter-data")
 (defn get-twitter-data
   "Given a latitude, a longitude, and radius, get the twitter data for that locationxradius and store it in twitter-response"
   [coords]

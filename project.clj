@@ -12,6 +12,7 @@
                  [org.clojure/tools.nrepl "0.2.10"]
                  [org.clojure/data.json "0.2.5"]
                  [org.clojure/data.csv "0.1.2"]
+                 [org.slf4j/slf4j-simple "1.6.6"]
                  [incanter "1.9.0"]]
   :plugins [[lein-daemon "0.5.4"]]
   :daemon {:hexpacker {:ns hexpacker.core
