@@ -20,7 +20,7 @@
   (println "Setting constants...")
 
   (def center-point {:lat 30.268147 :lng -97.743926})
-  (def packed-circle-coords (pack-geo-circle center-point 3000 15))
+  (def packed-circle-coords (pack-geo-circle center-point 100 15))
   (def test-list (subvec packed-circle-coords 300 1020))
   (def selected-coords (nth test-list 7))
   
@@ -49,7 +49,7 @@
 
   ;;; Make requests & store results (CSV TEST)
   (println "Getting Google responses...")
-  (def google-response (doall (map get-google-places-data packed-circle-coords)))
+  (def google-response (doall (map #(get-google-places-data %1 15) packed-circle-coords)))
 
   (println "Transforming results...")
   ;;; Transform responses to more workable states

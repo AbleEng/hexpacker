@@ -22,7 +22,9 @@
   :profiles {:gen {:main hexpacker.gen
                    :uberjar-name "gen.0.1.1-SNAPSHOT.jar"}
              :work {:main hexpacker.work
-                    :uberjar-name "work.0.1.1-SNAPSHOT.jar"}}
+                    :uberjar-name "work.0.1.1-SNAPSHOT.jar"}
+             :transform {:main hexpacker.transform
+                         :uberjar-name "transform.0.1.1-SNAPSHOT.jar"}}
   :ring {:handler hexpacker.web/app
          :adapter {:port 8080
                    :join? false}

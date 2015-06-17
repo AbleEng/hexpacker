@@ -1,8 +1,6 @@
 (ns hexpacker.work
   (:require [hexpacker.services :refer [get-google-places-data]]))
 
-
-;;; TODO: Thread r2 from gen -> work
 ;; (println "Defining -main for Worker")
 (defn -main
   [radius & args]
