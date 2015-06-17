@@ -19,10 +19,11 @@
   (defonce server (start-server :port 7888))
   (println "Setting constants...")
 
-  (def center-point {:lat 32.7767 :lng -96.7970})
-  (def packed-circle-coords (pack-geo-circle center-point 16511 15))
+  (def center-point {:lat 30.268147 :lng -97.743926})
+  (def packed-circle-coords (pack-geo-circle center-point 100 15))
   (def test-list (subvec packed-circle-coords 300 1020))
   (def selected-coords (nth test-list 7))
+  
   
   (let [req-num (count packed-circle-coords)]
     (println (str "Making " req-num " requests to Google, Instagram, and Twitter...")))
@@ -48,7 +49,7 @@
 
   ;;; Make requests & store results (CSV TEST)
   (println "Getting Google responses...")
-  (def google-response (doall (map get-google-places-data packed-circle-coords)))
+  (def google-response (doall (map #(get-google-places-data %1 15) packed-circle-coords)))
 
   (println "Transforming results...")
   ;;; Transform responses to more workable states
