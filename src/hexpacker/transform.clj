@@ -7,14 +7,8 @@
   [& args]
   
   (def input-raw (slurp *in*))
-  ;; (prn input-raw))
-
-  ;; (let [input-sets (map read-string (s/split-lines input-raw))]
-  ;;   (prn input-sets))
-  ;; )
-
-  (let [input-sets (map read-string (s/split-lines input-raw))]
+  (let [input-sets (map read-string (s/split-lines input-raw))
+        cleaned-input (reduce #{} input-sets)]
     (println (str "Writing " (count input-sets) " results to /tmp/google-results.csv ..."))
-    (time (write-csv "/tmp/google-results.csv" input-sets))
-    ;; (prn input-sets)
+    (time (write-csv "/tmp/google-results.csv" cleaned-input))
   ))
