@@ -30,7 +30,7 @@ There are 3 main components for dealing with distributed computing with hexpacke
 
 + `hexpacker.transform/main` reads in the accumulated result sets, transforms them, and writes them as csv.
 
-#### Compile & local test example (sub-radius of 15m.)
+#### Compilation & local test example (sub-radius of 15m.)
 
     $ lein uberjar
     $ java -cp hexpacker-0.1.1-standalone.jar clojure.main -m hexpacker.gen | WORKER=1 java -cp hexpacker-0.1.1-standalone.jar clojure.main -m hexpacker.work 15 | java -cp hexpacker-0.1.1-standalone.jar clojure.main -m hexpacker.transform
