@@ -19,21 +19,23 @@ A hexagonal circle packing implementation for canvasing/sampling large geographi
 #### To work:
 
     $ lein uberjar
-    $ java -jar hexpacker-0.1.0-standalone.jar [args]
+    $ java -jar hexpacker-0.1.1-standalone.jar [args]
 
 
-## Example
+## Distribution Example
 
-If you wanted to generate the collection of packed circles bounded by a large radius of 3KM, and smaller radii of 50 meters:
+There are 3 main components for dealing with distributed computing with hexpacker: Generator, Worker, and Transformer.
 
-```clojure
-(ns hexpacker.stitch)
-(def center-point {:lat 30.268147 :lng -97.743926})
-(def packed-circle-coords (pack-geo-circle center-point 3000 50))
-(count packed-circle-coords)
-;=> 2791
-```
-This repo hasn't been "library-ized" just yet, but I may spin out the mercator, haversine, and stitching components into separate modules.
++ `hexpacker.gen/main` generates the lat/long pairs for a given coverage area, chunked into batches of 1000 pairs.
+
++ `hexpacker.work/main` reads in one such batch and executes (currently google) queries using the lat/long pairs and returns a set of the clean data. Requires an environmental variable `WORKER` to be set to an integer value which denotes the ID of the worker processing the data (depending on how many machines you want to distribute to). This is set up in `config.clj`
+
++ `hexpacker.transform/main` reads in the accumulated result sets, transforms them, and writes them as csv.
+
+#### Compilation & local test example (sub-radius of 15m.)
+
+    $ lein uberjar
+    $ java -cp hexpacker-0.1.1-standalone.jar clojure.main -m hexpacker.gen | WORKER=1 java -cp hexpacker-0.1.1-standalone.jar clojure.main -m hexpacker.work 15 | java -cp hexpacker-0.1.1-standalone.jar clojure.main -m hexpacker.transform
 
 
 ## Calling hexpacker from your code

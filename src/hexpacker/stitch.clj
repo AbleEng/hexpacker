@@ -22,27 +22,28 @@
     {:x (+ dx x) 
      :y (+ dy y)}))
 
-(defn generate-next-layer
-  "Given a vector of hashmaps containing x-y coordinates of a layer of circles forming 'Pascals Triangle', returns the next layer."
-  [previous-layer]
-  (let [r2 50]
-    (into [] 
-          (set (flatten 
-              (map (fn [elem]
-                 (let [circle1-xy-coords (calculate-xy-coords {:x (:x elem)
-                                                               :y (:y elem)
-                                                               :distance (* 2 r2)
-                                                               :bearing 0})
-                       circle2-xy-coords (calculate-xy-coords {:x (:x elem)
-                                                               :y (:y elem)
-                                                               :distance (* 2 r2)
-                                                               :bearing 60})]
-                   [circle1-xy-coords circle2-xy-coords])) previous-layer))))))
+(defmacro next-layer-fn
+  "Generates a function which, given a vector of hashmaps containing x-y coordinates of a layer of circles forming 'Pascals Triangle', returns the next layer."
+  [r2]
+  `(fn [previous-layer#]
+     (into []
+           (set (flatten
+                 (map (fn [elem#]
+                        (let [circle1-xy-coords# (calculate-xy-coords {:x (:x elem#)
+                                                                      :y (:y elem#)
+                                                                      :distance (* 2 ~r2)
+                                                                      :bearing 0})
+                              circle2-xy-coords# (calculate-xy-coords {:x (:x elem#)
+                                                                      :y (:y elem#)
+                                                                      :distance (* 2 ~r2)
+                                                                      :bearing 60})]
+                          [circle1-xy-coords# circle2-xy-coords#])) previous-layer#))))))
+
 
 (defn pascals-triangle
   "Given a start point and total number of layers, returns a 'pascals-triangle' configuration of circles"
-  [start-point layers]
-  (take layers (iterate generate-next-layer [start-point])))
+  [start-point layers r2]
+  (take layers (iterate (next-layer-fn r2) [start-point])))
 
 (defn rotate-about
   "Given two points and an angle of rotation, return the resultant x-y pair for rotating A about B."
@@ -61,9 +62,9 @@
   "Generates vector of x-y coordinates for circle-in-circle hexagonal packing for circles of radii r1 and r2 where r1 > r2."
   [r1 r2 center]
   (set (flatten (let [num-layers (+ 1 (long (/ r1 (* 2 r2))))
-        flat-pascals-triangle (flatten (pascals-triangle center num-layers))]
-    (take 6 (iterate (fn [flat-triangle]
-                       (map #(rotate-about %1 center 60) flat-triangle)) flat-pascals-triangle))))))
+                      flat-pascals-triangle (flatten (pascals-triangle center num-layers r2))]
+                  (take 6 (iterate (fn [flat-triangle]
+                                     (map #(rotate-about %1 center 60) flat-triangle)) flat-pascals-triangle))))))
 
 (defn round-pack-circle
   "Generates rounded values for x-y coordinates from pack-circle. Center should be provided as a hashmap of format {:x x :y y}"
