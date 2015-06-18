@@ -1,6 +1,6 @@
 (defproject hexpacker "0.1.1-SNAPSHOT"
   :description "A hexagonal circle packing implementation for canvasing/sampling large geographical areas (specifically optimized for Google/Instagram/Twitter APIs)"
-  :url "http://example.com/FIXME"
+  :url "https://github.com/ableeng/hexpacker/"
   :license {:name "MIT License"
             :url "http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.6.0"]
