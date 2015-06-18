@@ -21,4 +21,4 @@
                                                   :place_id (:place_id sub-result)
                                                   :types (:types sub-result)}))))))
   ;; (println "Doing something with the data")
-  (prn (str google-places-cleaned "\n")))
+  (prn (str google-places-cleaned)))
