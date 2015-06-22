@@ -122,6 +122,7 @@
                            :x-label "Distance X"
                            :y-label "Distance Y")]
             p))
+
 ; For plotting:
 ;; (def center-point {:lat 30.2500  :lng 97.7500})
 ;; (def center-point-xy (wgs84->mercator center-point))
