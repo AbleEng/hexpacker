@@ -125,7 +125,7 @@
 ; For plotting:
 ;; (def center-point {:lat 30.2500  :lng 97.7500})
 ;; (def center-point-xy (wgs84->mercator center-point))
-;; (def packed-circle-coords (round-pack-circle 3000 50 center-point-xy))
-;; (time (doall (map #(add-parametric plot (circle (:x %1) (:y %1) 50) Math/PI (- Math/PI)) packed-circle-coords)))
+;; (def packed-circle-coords (round-pack-circle 3000 15 center-point-xy))
+;; (time (doall (map #(add-parametric plot (circle (:x %1) (:y %1) 15) Math/PI (- Math/PI)) packed-circle-coords)))
 
 ;; (view plot)
